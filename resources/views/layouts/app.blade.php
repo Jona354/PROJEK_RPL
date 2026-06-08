@@ -1,53 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SIGURESTO</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
+<title>SIGURESTO</title>
 
-        body{
-            margin:0;
-            font-family:Arial, sans-serif;
-        }
+<style>
 
-        .wrapper{
-            display:flex;
-            min-height:100vh;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
 
-        .sidebar{
-            width:250px;
-            background:#2c3e50;
-            color:white;
-            padding:20px;
-        }
+body{
+    background:#f4f6f9;
+}
 
-        .sidebar a{
-            display:block;
-            color:white;
-            text-decoration:none;
-            margin-bottom:10px;
-        }
+.wrapper{
+    display:flex;
+    min-height:100vh;
+}
 
-        .sidebar a:hover{
-            color:#f1c40f;
-        }
+.content{
+    flex:1;
+    margin-left:250px;
+}
 
-        .content{
-            flex:1;
-        }
+.main-content{
+    padding:25px;
+}
 
-        .navbar{
-            background:#34495e;
-            color:white;
-            padding:15px;
-        }
+</style>
 
-        .main-content{
-            padding:20px;
-        }
-
-    </style>
 </head>
 <body>
 
@@ -69,5 +56,7 @@
 
 </div>
 
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ 
 </body>
 </html>

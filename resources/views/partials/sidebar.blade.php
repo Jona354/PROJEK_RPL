@@ -1,77 +1,50 @@
-<div class="sidebar">
+<div style="
+width:250px;
+height:100vh;
+position:fixed;
+background:#111827;
+color:white;
+">
 
-    <h2>SIGURESTO</h2>
+    <div style="
+    padding:25px;
+    font-size:24px;
+    font-weight:bold;
+    border-bottom:1px solid #374151;
+    ">
+        SIGURESTO
+    </div>
 
-    <p>
-        {{ Auth::user()->nama }}
-    </p>
+    <div style="padding:15px;">
 
-    <hr>
-
-    <a href="/dashboard">
-        Dashboard
-    </a>
-
-    {{-- Owner dan Admin Gudang --}}
-    @if(in_array(auth()->user()->role, ['owner', 'admin_gudang']))
-
-        <a href="#">
-            Supplier
+        <a href="/dashboard" style="display:block;padding:12px;color:white;text-decoration:none;">
+            Dashboard
         </a>
 
-    @endif
-
-    {{-- Selain Chef --}}
-    @if(auth()->user()->role != 'chef')
-
-        <a href="#">
+        <a href="#" style="display:block;padding:12px;color:white;text-decoration:none;">
             Barang
         </a>
 
-            <a href="#">
-                Transaksi Masuk
-            </a>
+        <a href="#" style="display:block;padding:12px;color:white;text-decoration:none;">
+            Supplier
+        </a>
 
-            <a href="#">
-                Transaksi Keluar
-            </a>
+        <a href="#" style="display:block;padding:12px;color:white;text-decoration:none;">
+            Barang Masuk
+        </a>
 
-    @endif
+        <a href="#" style="display:block;padding:12px;color:white;text-decoration:none;">
+            Barang Keluar
+        </a>
 
-    {{-- Chef --}}
-    @if(auth()->user()->role == 'chef')
-
-        <a href="#">
+        <a href="#" style="display:block;padding:12px;color:white;text-decoration:none;">
             Permintaan Barang
         </a>
 
-    @endif
-
-    {{-- Owner dan Admin --}}
-    @if(in_array(auth()->user()->role, ['owner', 'admin_gudang']))
-
-        <a href="#">
+        <a href="#" style="display:block;padding:12px;color:white;text-decoration:none;">
             Laporan
         </a>
 
-    @endif
-
-    <hr>
-
-    <form action="/logout" method="POST">
-        @csrf
-
-        <button
-            type="submit"
-            style="
-                width:100%;
-                padding:10px;
-                border:none;
-                cursor:pointer;
-            "
-        >
-            Logout
-        </button>
-    </form>
+    </div>
 
 </div>
