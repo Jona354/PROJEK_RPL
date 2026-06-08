@@ -21,27 +21,27 @@ color:white;
             Dashboard
         </a>
 
-        <a href="#" style="display:block;padding:12px;color:white;text-decoration:none;">
-            Barang
-        </a>
+        <a href="{{ route('barang.index') }}" style="display:block;padding:12px;color:white;text-decoration:none;">
+    Barang
+</a>
 
-        <a href="#" style="display:block;padding:12px;color:white;text-decoration:none;">
+        <a href="{{ route('supplier.index') }}" style="display:block;padding:12px;color:white;text-decoration:none;">
             Supplier
         </a>
 
-        <a href="#" style="display:block;padding:12px;color:white;text-decoration:none;">
+        <a href="/barang-masuk" style="display:block;padding:12px;color:white;text-decoration:none;">
             Barang Masuk
         </a>
 
-        <a href="#" style="display:block;padding:12px;color:white;text-decoration:none;">
+        <a href="/barang-keluar" style="display:block;padding:12px;color:white;text-decoration:none;">
             Barang Keluar
         </a>
 
-        <a href="#" style="display:block;padding:12px;color:white;text-decoration:none;">
+        <a href="/permintaan-barang" style="display:block;padding:12px;color:white;text-decoration:none;">
             Permintaan Barang
         </a>
 
-        <a href="#" style="display:block;padding:12px;color:white;text-decoration:none;">
+        <a href="/laporan" style="display:block;padding:12px;color:white;text-decoration:none;">
             Laporan
         </a>
 
