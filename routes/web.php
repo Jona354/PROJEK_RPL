@@ -4,15 +4,17 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\TransaksiMasukController; // Pastikan sudah di-use
 use Illuminate\Support\Facades\Route;
 
+// Redirect awal
+Route::get('/', function () {
+    return redirect('/login');
+});
 
-Route::get('/login', [AuthController::class,'showLogin'])
-    ->name('login');
-
-Route::post('/login', [AuthController::class,'login']);
-
-Route::post('/logout', [AuthController::class,'logout']);
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth')->group(function () {
 
@@ -22,14 +24,16 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('barang', BarangController::class);
 
-});
+    // TAMBAHKAN RUTE BARANG MASUK DI SINI
+    Route::resource('barang-masuk', TransaksiMasukController::class);
 
-Route::resource('barang', BarangController::class);
+
+
+    });
 
 
 
 Route::get('/owner-area', function () {
     return "Halaman Owner";
-})->middleware('role:owner');
-
+    })->middleware('role:owner');
 

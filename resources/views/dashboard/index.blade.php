@@ -14,12 +14,12 @@ flex-wrap:wrap;
 
     <div class="card-stat">
         <h4>Total Barang</h4>
-        <h2>120</h2>
+        <h2>{{ $totalBarang }}</h2>
     </div>
 
     <div class="card-stat">
         <h4>Total Supplier</h4>
-        <h2>15</h2>
+        <h2>{{ $jumlahSupplier }}</h2>
     </div>
 
     <div class="card-stat">
@@ -27,9 +27,9 @@ flex-wrap:wrap;
         <h2>7</h2>
     </div>
 
-    <div class="card-stat">
+    <div class="card-stat"> 
         <h4>Kadaluarsa</h4>
-        <h2>2</h2>
+        <h2>{{ $barangKadaluarsa }}</h2>
     </div>
 
 </div>

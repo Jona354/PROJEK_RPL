@@ -13,16 +13,42 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $barang = Barang::with('supplier')
-                    ->latest()
-                    ->get();
+        // 1. Ambil semua barang untuk tabel
+        $barang = Barang::with('supplier')->latest()->get();
 
-        return view('barang.index', compact('barang'));
+        // 2. Hitung statistik stok
+        $totalBarang = Barang::count();
+        
+        // Stok Habis: stok_saat_ini = 0
+        $stokHabis = Barang::where('stok_saat_ini', 0)->count();
+        
+        // Stok Menipis: stok_saat_ini > 0 dan <= stok_minimum
+        $stokMenipis = Barang::where('stok_saat_ini', '>', 0)
+                              ->whereColumn('stok_saat_ini', '<=', 'stok_minimum')
+                              ->count();
+        
+        // Stok Aman: stok_saat_ini > stok_minimum
+        $stokAman = Barang::whereColumn('stok_saat_ini', '>', 'stok_minimum')->count();
+
+        // 3. Kirim semua data ke view
+        return view('barang.index', compact(
+            'barang', 
+            'totalBarang', 
+            'stokHabis', 
+            'stokMenipis', 
+            'stokAman'
+        ));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
+    public function destroy(string $id)
+{
+    $barang = Barang::findOrFail($id);
+    $barang->delete();
+
+    return redirect()->route('barang.index')->with('success', 'Data barang berhasil dihapus');
+}
+
     public function create()
     {
         $suppliers = Supplier::all();
@@ -30,100 +56,58 @@ class BarangController extends Controller
         return view('barang.create', compact('suppliers'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         $request->validate([
-            'kode_barang' => 'required|unique:barang,kode_barang',
-            'nama' => 'required',
-            'kategori' => 'required',
-            'satuan' => 'required',
+            'kode_barang'   => 'required|unique:barang,kode_barang',
+            'nama'          => 'required',
+            'kategori'      => 'required',
+            'satuan'        => 'required',
             'stok_saat_ini' => 'required|numeric',
-            'stok_minimum' => 'required|numeric',
-            'harga_satuan' => 'required|numeric',
-            'supplier_id' => 'required',
+            'stok_minimum'  => 'required|numeric',
+            'harga_satuan'  => 'required|numeric',
+            'supplier_id'   => 'required|exists:suppliers,id',
         ]);
 
-        Barang::create([
-            'kode_barang' => $request->kode_barang,
-            'nama' => $request->nama,
-            'kategori' => $request->kategori,
-            'satuan' => $request->satuan,
-            'stok_saat_ini' => $request->stok_saat_ini,
-            'stok_minimum' => $request->stok_minimum,
-            'harga_satuan' => $request->harga_satuan,
-            'tanggal_kadaluarsa' => $request->tanggal_kadaluarsa,
-            'supplier_id' => $request->supplier_id,
-        ]);
+        Barang::create($request->all());
 
-        return redirect()
-                ->route('barang.index')
-                ->with('success', 'Data barang berhasil ditambahkan');
+        return redirect()->route('barang.index')->with('success', 'Data barang berhasil ditambahkan');
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan form edit barang
      */
     public function edit(string $id)
     {
         $barang = Barang::findOrFail($id);
-
-        $suppliers = Supplier::all();
-
-        return view('barang.edit', compact(
-            'barang',
-            'suppliers'
-        ));
+        $suppliers = Supplier::all(); // Mengambil supplier untuk dropdown edit
+        return view('barang.edit', compact('barang', 'suppliers'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Menyimpan perubahan data barang
      */
     public function update(Request $request, string $id)
     {
-        $barang = Barang::findOrFail($id);
-
+        
         $request->validate([
-            'kode_barang' => 'required|unique:barang,kode_barang,' . $id,
-            'nama' => 'required',
-            'kategori' => 'required',
-            'satuan' => 'required',
+            'kode_barang'   => 'required|unique:barang,kode_barang,' . $id, // Mengabaikan ID barang saat ini agar tidak error unik
+            'nama'          => 'required',
+            'kategori'      => 'required',
+            'satuan'        => 'required',
             'stok_saat_ini' => 'required|numeric',
-            'stok_minimum' => 'required|numeric',
-            'harga_satuan' => 'required|numeric',
-            'supplier_id' => 'required',
+            'stok_minimum'  => 'required|numeric',
+            'harga_satuan'  => 'required|numeric',
+            'supplier_id'   => 'required|exists:suppliers,id',
         ]);
 
-        $barang->update([
-            'kode_barang' => $request->kode_barang,
-            'nama' => $request->nama,
-            'kategori' => $request->kategori,
-            'satuan' => $request->satuan,
-            'stok_saat_ini' => $request->stok_saat_ini,
-            'stok_minimum' => $request->stok_minimum,
-            'harga_satuan' => $request->harga_satuan,
-            'tanggal_kadaluarsa' => $request->tanggal_kadaluarsa,
-            'supplier_id' => $request->supplier_id,
-        ]);
 
-        return redirect()
-                ->route('barang.index')
-                ->with('success', 'Data barang berhasil diperbarui');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
         $barang = Barang::findOrFail($id);
+        $barang->update($request->all());
 
-        $barang->delete();
-
-        return redirect()
-                ->route('barang.index')
-                ->with('success', 'Data barang berhasil dihapus');
+        return redirect()->route('barang.index')->with('success', 'Data barang berhasil diperbarui');
     }
+
+    // ... method lainnya (create, store, edit, update, destroy) tetap sama ...
 }

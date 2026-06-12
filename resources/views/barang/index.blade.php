@@ -38,22 +38,22 @@ margin-bottom:25px;
 
     <div class="card-stat">
         <h4>Total Barang</h4>
-        <h2>120</h2>
+        <h2>{{ $totalBarang }}</h2>
     </div>
 
     <div class="card-stat">
         <h4>Stok Aman</h4>
-        <h2>95</h2>
+        <h2>{{ $stokAman }}</h2>
     </div>
 
     <div class="card-stat">
         <h4>Stok Menipis</h4>
-        <h2>20</h2>
+        <h2>{{ $stokMenipis }}</h2>
     </div>
 
     <div class="card-stat">
         <h4>Habis</h4>
-        <h2>5</h2>
+        <h2>{{ $stokHabis }}</h2>
     </div>
 
 </div>
@@ -234,7 +234,7 @@ border-collapse:collapse;
 
 </div>
 
-<style>
+
 
 <style>
 
