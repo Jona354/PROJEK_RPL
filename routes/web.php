@@ -4,7 +4,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
-use App\Http\Controllers\TransaksiMasukController; // Pastikan sudah di-use
+use App\Http\Controllers\TransaksiMasukController; 
+use App\Http\Controllers\TransaksiKeluarController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\PermintaanController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect awal
@@ -24,14 +27,26 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('barang', BarangController::class);
 
-    // TAMBAHKAN RUTE BARANG MASUK DI SINI
-    Route::resource('barang-masuk', TransaksiMasukController::class);
 
+    Route::resource('barang-masuk', TransaksiMasukController::class);
+    Route::resource('barang-keluar', TransaksiKeluarController::class);
+    Route::delete('/barang-keluar/{id}', [App\Http\Controllers\TransaksiKeluarController::class, 'destroy'])
+    ->name('barang-keluar.destroy');
+
+    // Tambahkan ini di dalam group middleware('auth')
+    Route::get('/permintaan', [App\Http\Controllers\PermintaanController::class, 'index'])
+    ->name('permintaan.index');
 
 
     });
 
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/register', [RegisterController::class, 'create'])->name('register');
+    Route::post('/register', [RegisterController::class, 'store']);
+});
 
+Route::middleware(['auth', 'role:chef'])->post('/permintaan', [PermintaanController::class, 'store']);
+Route::middleware(['auth', 'role:admin'])->patch('/permintaan/{id}/approve', [PermintaanController::class, 'approve']);
 
 Route::get('/owner-area', function () {
     return "Halaman Owner";

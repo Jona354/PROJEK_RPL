@@ -12,13 +12,13 @@ class TransaksiMasuk extends Model
     protected $table = 'transaksi_masuk';
 
     protected $fillable = [
-        'barang_id',
-        'user_id',
-        'jumlah',
-        'harga_total',
-        'tanggal',
-        'no_faktur',
-        'keterangan'
+     'barang_id',
+    'jumlah',
+    'supplier_id',
+    'tanggal',
+    'no_faktur',
+    'user_id',
+    'harga_total',
     ];
 
     protected $casts = [
@@ -30,8 +30,14 @@ class TransaksiMasuk extends Model
         return $this->belongsTo(Barang::class);
     }
 
+    public function supplier() {
+    return $this->belongsTo(Supplier::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+   
 }

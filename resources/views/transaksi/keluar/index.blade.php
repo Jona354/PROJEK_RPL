@@ -3,9 +3,9 @@
 @section('content')
 <div class="container-fluid px-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-primary">Riwayat Barang Masuk</h2>
-        <a href="{{ route('barang-masuk.create') }}" class="btn btn-primary shadow-sm">
-            <i class="fas fa-plus"></i> Tambah Barang Masuk
+        <h2 class="text-primary">Riwayat Barang Keluar</h2>
+        <a href="{{ route('barang-keluar.create') }}" class="btn btn-primary shadow-sm">
+            <i class="fas fa-plus"></i> Tambah Barang Keluar
         </a>
     </div>
 
@@ -22,7 +22,7 @@
                 <thead class="table-dark">
                     <tr>
                         <th>Tanggal</th>
-                        <th>No. Faktur</th>
+                        <th>Tujuan</th>
                         <th>Nama Barang</th>
                         <th>Jumlah</th>
                         <th class="text-center">Aksi</th>
@@ -36,7 +36,7 @@
                         <td>{{ $t->barang->nama ?? 'Barang Dihapus' }}</td>
                         <td><strong>{{ $t->jumlah }}</strong></td>
                         <td class="text-center">
-                            <form action="{{ route('barang-masuk.destroy', $t->id) }}" method="POST" onsubmit="return confirm('Hapus transaksi ini?')">
+                            <form action="{{ route('barang-keluar.destroy', $t->id) }}" method="POST" onsubmit="return confirm('Hapus transaksi ini?')">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="btn btn-outline-danger btn-sm">
                                     <i class="fas fa-trash"></i> Hapus

@@ -20,6 +20,8 @@ return new class extends Migration
                 ->constrained('users')  
                 ->cascadeOnDelete();
 
+            $table->foreignId('supplier_id')->constrained();
+
             $table->integer('jumlah');
 
             $table->decimal('harga_total', 15, 2);
