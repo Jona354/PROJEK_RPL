@@ -10,39 +10,47 @@
 
     <div class="card shadow-sm">
         <div class="card-body">
+            <div class="header-permintaan" style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>Daftar Permintaan Barang</h3>
+                @if(auth()->user()->role === 'chef')
+                    <a href="{{ route('permintaan.create') }}" class="btn btn-primary">+ Buat Permintaan</a>
+                @endif
+            </div>
+
             <table class="table table-hover">
-                <thead class="table-dark">
+                <thead>
                     <tr>
                         <th>Chef/Bar</th>
                         <th>Barang</th>
                         <th>Jumlah</th>
                         <th>Status</th>
-                        <th class="text-center">Aksi</th>
+                        {{-- Header Aksi hanya muncul untuk Admin --}}
+                        @if(auth()->user()->role === 'admin_gudang')
+                            <th>Aksi</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($permintaan as $p)
+                    @foreach($permintaans as $p)
                     <tr>
-                        <td>{{ $p->user->name }}</td>
-                        <td>{{ $p->barang->nama }}</td>
-                        <td>{{ $p->jumlah }}</td>
-                        <td>
-                            <span class="badge {{ $p->status == 'pending' ? 'bg-warning' : 'bg-success' }}">
-                                {{ ucfirst($p->status) }}
-                            </span>
-                        </td>
-                        <td class="text-center">
-                            @if($p->status == 'pending')
-                                <form action="{{ route('permintaan.approve', $p->id) }}" method="POST">
-                                    @csrf @method('PATCH')
-                                    <button type="submit" class="btn btn-success btn-sm">
-                                        <i class="fas fa-check"></i> Setujui
-                                    </button>
-                                </form>
-                            @else
-                                <span class="text-muted">Selesai</span>
-                            @endif
-                        </td>
+                        <td>{{ $p->user->nama ?? 'N/A' }}</td>
+                        <td>{{ $p->barang->nama ?? 'N/A' }}</td>
+                        <td>{{ $p->jumlah_diminta }}</td>
+                        <td>{{ $p->status }}</td>
+                        
+                        {{-- Kolom Aksi hanya muncul untuk Admin --}}
+                        @if(auth()->user()->role === 'admin_gudang')
+                            <td>
+                                @if($p->status === 'pending')
+                                    <form action="{{ route('permintaan.approve', $p->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                                    </form>
+                                @else
+                                    <span class="badge bg-secondary">{{ $p->status }}</span>
+                                @endif
+                            </td>
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>

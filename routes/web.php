@@ -48,6 +48,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:chef'])->post('/permintaan', [PermintaanController::class, 'store']);
 Route::middleware(['auth', 'role:admin'])->patch('/permintaan/{id}/approve', [PermintaanController::class, 'approve']);
 
+Route::get('/permintaan/create', [PermintaanController::class, 'create'])->name('permintaan.create');
+Route::post('/permintaan', [PermintaanController::class, 'store'])->name('permintaan.store');
+Route::post('/permintaan/{id}/approve', [PermintaanController::class, 'approve'])->name('permintaan.approve');
+
 Route::get('/owner-area', function () {
     return "Halaman Owner";
     })->middleware('role:owner');

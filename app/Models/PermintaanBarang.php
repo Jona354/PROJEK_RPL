@@ -26,7 +26,7 @@ class PermintaanBarang extends Model
 
     public function barang()
     {
-        return $this->belongsTo(Barang::class);
+        return $this->belongsTo(Barang::class, 'barang_id', 'id');
     }
 
     public function requester()
@@ -41,7 +41,7 @@ class PermintaanBarang extends Model
 
     public function user() 
     { 
-        return $this->belongsTo(User::class); 
+        return $this->belongsTo(User::class, 'requester_id', 'id'); 
     }
 
 }
