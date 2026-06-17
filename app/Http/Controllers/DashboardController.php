@@ -13,9 +13,9 @@ class DashboardController extends Controller
      // Pastikan semua variabel ini didefinisikan SEBELUM return view
     $jumlahSupplier = Supplier::count();
     $totalBarang = Barang::count();
-    $stokHabis = Barang::where('stok', 0)->count();
-    $stokMenipis = Barang::where('stok', '>', 0)->where('stok', '<=', 10)->count();
-    $stokAman = Barang::where('stok', '>', 10)->count();
+    $stokHabis = Barang::where('stok_saat_ini', 0)->count();
+    $stokMenipis = Barang::where('stok_saat_ini', '>', 0)->where('stok_saat_ini', '<=', 10)->count();
+    $stokAman = Barang::where('stok_saat_ini', '>', 10)->count();
     $barangKadaluarsa = Barang::where('tanggal_kadaluarsa', '<', now())->count(); // Pastikan kolom ini ada
 
     return view('dashboard.index', compact(

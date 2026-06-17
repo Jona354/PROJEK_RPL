@@ -56,3 +56,8 @@ Route::get('/owner-area', function () {
     return "Halaman Owner";
     })->middleware('role:owner');
 
+Route::post('/permintaan/{id}/approve', [PermintaanController::class, 'approve'])
+    ->name('permintaan.approve');
+
+Route::post('/permintaan/{id}/reject', [PermintaanController::class, 'reject'])
+    ->name('permintaan.reject');

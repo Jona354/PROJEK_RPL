@@ -24,13 +24,13 @@ class PermintaanController extends Controller
             $permintaan->update(['status' => 'disetujui']);
             
             // 3. Catat ke tabel TransaksiKeluar (HANYA SAAT APPROVE)
-            TransaksiKeluar::create([
-                'barang_id'    => $permintaan->barang_id,
-                'jumlah'       => $permintaan->jumlah_diminta,
-                'tujuan'       => 'Dapur/Bar',
-                'tanggal'      => now(),
-                'user_id'      => $permintaan->requester_id, // Ambil dari pemilik permintaan
-            ]);
+//     TransaksiKeluar::create([
+//     'barang_id' => $permintaan->barang_id,
+//     'jumlah'    => $permintaan->jumlah_diminta,
+//     'tujuan'    => 'internal',
+//     'tanggal'   => now()->toDateString(),
+//     'user_id'   => $permintaan->requester_id,
+// ]);
         });
         
         return back()->with('success', 'Barang disetujui dan stok berkurang');
@@ -75,4 +75,15 @@ class PermintaanController extends Controller
         $barangs = \App\Models\Barang::all();
         return view('permintaan.create', compact('barangs'));
     }
+
+    public function reject($id)
+{
+    $permintaan = PermintaanBarang::findOrFail($id);
+
+    $permintaan->update([
+        'status' => 'ditolak'
+    ]);
+
+    return back()->with('success', 'Permintaan berhasil ditolak');
+}
 }
