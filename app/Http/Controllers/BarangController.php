@@ -11,7 +11,7 @@ class BarangController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // 1. Ambil semua barang untuk tabel
         $barang = Barang::with('supplier')->latest()->get();
@@ -29,6 +29,11 @@ class BarangController extends Controller
         
         // Stok Aman: stok_saat_ini > stok_minimum
         $stokAman = Barang::whereColumn('stok_saat_ini', '>', 'stok_minimum')->count();
+        $search = $request->input('search');
+       $barang = \App\Models\Barang::when($search, function ($query) use ($search) {
+        return $query->where('nama', 'LIKE', '%' . $search . '%')
+                     ->orWhere('kode_barang', 'LIKE', '%' . $search . '%');
+    })->get();
 
         // 3. Kirim semua data ke view
         return view('barang.index', compact(

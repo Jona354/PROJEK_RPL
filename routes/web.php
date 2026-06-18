@@ -40,9 +40,11 @@ Route::middleware('auth')->group(function () {
 
     });
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'role:admin,admin_gudang'])->group(function () {
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
     Route::post('/register', [RegisterController::class, 'store']);
+    Route::get('/admin/laporan', [App\Http\Controllers\LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/admin/laporan/export', [App\Http\Controllers\LaporanController::class, 'export'])->name('laporan.export');
 });
 
 Route::middleware(['auth', 'role:chef'])->post('/permintaan', [PermintaanController::class, 'store']);

@@ -16,6 +16,7 @@ class PermintaanBarang extends Model
         'requester_id',
         'approver_id',
         'jumlah_diminta',
+        'keterangan',
         'status',
         'approved_at'
     ];

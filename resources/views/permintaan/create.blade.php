@@ -55,7 +55,7 @@
         </div>
     </div>
 </div>
-
+<textarea name="keterangan" class="form-control" placeholder="Tulis catatan di sini..."></textarea>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

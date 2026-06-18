@@ -12,7 +12,7 @@
             <a href="{{ route('supplier.index') }}" style="display:block;padding:12px;color:white;text-decoration:none;">Supplier</a>
             <a href="{{ route('barang-masuk.index') }}" style="display:block;padding:12px;color:white;text-decoration:none;">Barang Masuk</a>
             <a href="{{ route('barang-keluar.index') }}" style="display:block;padding:12px;color:white;text-decoration:none;">Barang Keluar</a>
-            <a href="#" style="display:block;padding:12px;color:white;text-decoration:none;">Laporan</a>
+            <a href="{{ route('laporan.index') }}"style="display:block;padding:12px;color:white;text-decoration:none;">Laporan Barang</a>
         @endif
         
         {{-- Menu yang muncul untuk Admin DAN Chef --}}
