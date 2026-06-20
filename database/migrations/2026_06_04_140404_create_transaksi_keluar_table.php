@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->date('tanggal');
 
-            $table->string('tujuan', [
+            $table->enum('tujuan', [
                 'dapur',
                 'retur',
                 'lainnya'
