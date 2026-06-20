@@ -52,14 +52,42 @@ box-shadow:0 2px 10px rgba(0,0,0,.08);
                    class="form-control">
         </div>
 
-        <!-- Kategori -->
-        <div>
-            <label><strong>Kategori</strong></label>
+<!-- Kategori -->
+<div>
+    <label><strong>Kategori</strong></label>
 
-            <input type="text"
-                   name="kategori"
-                   class="form-control">
-        </div>
+    <select name="kategori" class="form-control" required>
+
+        <option value="">
+            Pilih Kategori
+        </option>
+
+        <option value="Bahan Makanan">
+            Bahan Makanan
+        </option>
+
+        <option value="Minuman">
+            Minuman
+        </option>
+
+        <option value="Bumbu">
+            Bumbu
+        </option>
+
+        <option value="Peralatan Dapur">
+            Peralatan Dapur
+        </option>
+
+        <option value="Bahan Pembersih">
+            Bahan Pembersih
+        </option>
+
+        <option value="Lainnya">
+            Lainnya
+        </option>
+
+    </select>
+</div>
 
         <!-- Satuan -->
         <div>
@@ -90,14 +118,6 @@ box-shadow:0 2px 10px rgba(0,0,0,.08);
             </select>
         </div>
 
-        <!-- Stok Awal -->
-        <div>
-            <label><strong>Stok Awal</strong></label>
-
-            <input type="number"
-                   name="stok_saat_ini"
-                   class="form-control">
-        </div>
 
         <!-- Stok Minimum -->
         <div>

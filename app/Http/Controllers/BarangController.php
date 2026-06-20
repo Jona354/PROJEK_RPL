@@ -9,51 +9,45 @@ use Illuminate\Http\Request;
 class BarangController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar barang
      */
     public function index(Request $request)
     {
-        // 1. Ambil semua barang untuk tabel
-        $barang = Barang::with('supplier')->latest()->get();
-
-        // 2. Hitung statistik stok
-        $totalBarang = Barang::count();
-        
-        // Stok Habis: stok_saat_ini = 0
-        $stokHabis = Barang::where('stok_saat_ini', 0)->count();
-        
-        // Stok Menipis: stok_saat_ini > 0 dan <= stok_minimum
-        $stokMenipis = Barang::where('stok_saat_ini', '>', 0)
-                              ->whereColumn('stok_saat_ini', '<=', 'stok_minimum')
-                              ->count();
-        
-        // Stok Aman: stok_saat_ini > stok_minimum
-        $stokAman = Barang::whereColumn('stok_saat_ini', '>', 'stok_minimum')->count();
         $search = $request->input('search');
-       $barang = \App\Models\Barang::when($search, function ($query) use ($search) {
-        return $query->where('nama', 'LIKE', '%' . $search . '%')
-                     ->orWhere('kode_barang', 'LIKE', '%' . $search . '%');
-    })->get();
 
-        // 3. Kirim semua data ke view
+        // Data barang + pencarian + relasi supplier
+        $barang = Barang::with('supplier')
+            ->when($search, function ($query) use ($search) {
+                $query->where('nama', 'LIKE', '%' . $search . '%')
+                    ->orWhere('kode_barang', 'LIKE', '%' . $search . '%');
+            })
+            ->latest()
+            ->get();
+
+        // Statistik stok
+        $totalBarang = Barang::count();
+
+        $stokHabis = Barang::where('stok_saat_ini', 0)->count();
+
+        $stokMenipis = Barang::where('stok_saat_ini', '>', 0)
+            ->whereColumn('stok_saat_ini', '<=', 'stok_minimum')
+            ->count();
+
+        $stokAman = Barang::whereColumn('stok_saat_ini', '>', 'stok_minimum')
+            ->count();
+
         return view('barang.index', compact(
-            'barang', 
-            'totalBarang', 
-            'stokHabis', 
-            'stokMenipis', 
+            'barang',
+            'totalBarang',
+            'stokHabis',
+            'stokMenipis',
             'stokAman'
         ));
     }
 
-
-    public function destroy(string $id)
-{
-    $barang = Barang::findOrFail($id);
-    $barang->delete();
-
-    return redirect()->route('barang.index')->with('success', 'Data barang berhasil dihapus');
-}
-
+    /**
+     * Menampilkan form tambah barang
+     */
     public function create()
     {
         $suppliers = Supplier::all();
@@ -61,24 +55,37 @@ class BarangController extends Controller
         return view('barang.create', compact('suppliers'));
     }
 
+    /**
+     * Menyimpan barang baru
+     */
+   public function store(Request $request)
+{
+    $request->validate([
+        'kode_barang'   => 'required|unique:barang,kode_barang',
+        'nama'          => 'required|string',
+        'kategori'      => 'required|string',
+        'satuan'        => 'required|string',
+        'stok_minimum'  => 'required|numeric|min:0',
+        'harga_satuan'  => 'required|numeric|min:0',
+        'supplier_id'   => 'required|exists:suppliers,id',
+    ]);
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'kode_barang'   => 'required|unique:barang,kode_barang',
-            'nama'          => 'required',
-            'kategori'      => 'required',
-            'satuan'        => 'required',
-            'stok_saat_ini' => 'required|numeric',
-            'stok_minimum'  => 'required|numeric',
-            'harga_satuan'  => 'required|numeric',
-            'supplier_id'   => 'required|exists:suppliers,id',
-        ]);
+    Barang::create([
+        'kode_barang'       => $request->kode_barang,
+        'nama'              => $request->nama,
+        'kategori'          => $request->kategori,
+        'satuan'            => $request->satuan,
+        'stok_saat_ini'     => 0,
+        'stok_minimum'      => $request->stok_minimum,
+        'harga_satuan'      => $request->harga_satuan,
+        'tanggal_kadaluarsa'=> $request->tanggal_kadaluarsa,
+        'supplier_id'       => $request->supplier_id,
+    ]);
 
-        Barang::create($request->all());
-
-        return redirect()->route('barang.index')->with('success', 'Data barang berhasil ditambahkan');
-    }
+    return redirect()
+        ->route('barang.index')
+        ->with('success', 'Data barang berhasil ditambahkan');
+}
 
     /**
      * Menampilkan form edit barang
@@ -86,33 +93,55 @@ class BarangController extends Controller
     public function edit(string $id)
     {
         $barang = Barang::findOrFail($id);
-        $suppliers = Supplier::all(); // Mengambil supplier untuk dropdown edit
+        $suppliers = Supplier::all();
+
         return view('barang.edit', compact('barang', 'suppliers'));
     }
 
     /**
-     * Menyimpan perubahan data barang
+     * Menyimpan perubahan barang
      */
     public function update(Request $request, string $id)
+{
+    $request->validate([
+        'kode_barang'   => 'required|unique:barang,kode_barang,' . $id,
+        'nama'          => 'required|string',
+        'kategori'      => 'required|string',
+        'satuan'        => 'required|string',
+        'stok_minimum'  => 'required|numeric|min:0',
+        'harga_satuan'  => 'required|numeric|min:0',
+        'supplier_id'   => 'required|exists:suppliers,id',
+    ]);
+
+    $barang = Barang::findOrFail($id);
+
+    $barang->update([
+        'kode_barang'       => $request->kode_barang,
+        'nama'              => $request->nama,
+        'kategori'          => $request->kategori,
+        'satuan'            => $request->satuan,
+        'stok_minimum'      => $request->stok_minimum,
+        'harga_satuan'      => $request->harga_satuan,
+        'tanggal_kadaluarsa'=> $request->tanggal_kadaluarsa,
+        'supplier_id'       => $request->supplier_id,
+    ]);
+
+    return redirect()
+        ->route('barang.index')
+        ->with('success', 'Data barang berhasil diperbarui');
+}
+
+    /**
+     * Menghapus data barang
+     */
+    public function destroy(string $id)
     {
-        
-        $request->validate([
-            'kode_barang'   => 'required|unique:barang,kode_barang,' . $id, // Mengabaikan ID barang saat ini agar tidak error unik
-            'nama'          => 'required',
-            'kategori'      => 'required',
-            'satuan'        => 'required',
-            'stok_saat_ini' => 'required|numeric',
-            'stok_minimum'  => 'required|numeric',
-            'harga_satuan'  => 'required|numeric',
-            'supplier_id'   => 'required|exists:suppliers,id',
-        ]);
-
-
         $barang = Barang::findOrFail($id);
-        $barang->update($request->all());
 
-        return redirect()->route('barang.index')->with('success', 'Data barang berhasil diperbarui');
+        $barang->delete();
+
+        return redirect()
+            ->route('barang.index')
+            ->with('success', 'Data barang berhasil dihapus');
     }
-
-    // ... method lainnya (create, store, edit, update, destroy) tetap sama ...
 }

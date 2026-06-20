@@ -32,7 +32,11 @@
                     @foreach($transaksi as $t)
                     <tr>
                         <td>{{ date('d-m-Y', strtotime($t->tanggal)) }}</td>
-                        <td><span class="badge bg-secondary">{{ $t->no_faktur }}</span></td>
+                       <td>
+    <span class="badge bg-secondary">
+        {{ ucfirst($t->tujuan) }}
+    </span>
+</td>
                         <td>{{ $t->barang->nama ?? 'Barang Dihapus' }}</td>
                         <td><strong>{{ $t->jumlah }}</strong></td>
                         <td class="text-center">

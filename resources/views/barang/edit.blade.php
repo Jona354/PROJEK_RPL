@@ -29,10 +29,40 @@
     <br>
 
     <label>Kategori</label>
-    <input type="text"
-           name="kategori"
-           value="{{ $barang->kategori }}"
-           class="form-control">
+    <select name="kategori"
+            class="form-control">
+
+        <option value="Bahan Makanan"
+            {{ $barang->kategori == 'Bahan Makanan' ? 'selected' : '' }}>
+            Bahan Makanan
+        </option>
+
+        <option value="Minuman"
+            {{ $barang->kategori == 'Minuman' ? 'selected' : '' }}>
+            Minuman
+        </option>
+
+        <option value="Bumbu"
+            {{ $barang->kategori == 'Bumbu' ? 'selected' : '' }}>
+            Bumbu
+        </option>
+
+        <option value="Peralatan Dapur"
+            {{ $barang->kategori == 'Peralatan Dapur' ? 'selected' : '' }}>
+            Peralatan Dapur
+        </option>
+
+        <option value="Bahan Pembersih"
+            {{ $barang->kategori == 'Bahan Pembersih' ? 'selected' : '' }}>
+            Bahan Pembersih
+        </option>
+
+        <option value="Lainnya"
+            {{ $barang->kategori == 'Lainnya' ? 'selected' : '' }}>
+            Lainnya
+        </option>
+
+    </select>
 
     <br>
 
@@ -61,14 +91,6 @@
         @endforeach
 
     </select>
-
-    <br>
-
-    <label>Stok Saat Ini</label>
-    <input type="number"
-           name="stok_saat_ini"
-           value="{{ $barang->stok_saat_ini }}"
-           class="form-control">
 
     <br>
 

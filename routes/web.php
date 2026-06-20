@@ -54,10 +54,18 @@ Route::middleware(['auth', 'role:admin_gudang'])->group(function () {
     Route::resource('supplier', SupplierController::class);
 
     // Kelola User
-    Route::get('/register', [RegisterController::class, 'create'])
-        ->name('register');
 
-    Route::post('/register', [RegisterController::class, 'store']);
+// Daftar user
+Route::get('/register', [RegisterController::class, 'index'])
+    ->name('register');
+
+// Form tambah user
+Route::get('/register/create', [RegisterController::class, 'create'])
+    ->name('register.create');
+
+// Simpan user baru
+Route::post('/register', [RegisterController::class, 'store'])
+    ->name('register.store');
 
     // Laporan
     Route::get('/admin/laporan', [LaporanController::class, 'index'])

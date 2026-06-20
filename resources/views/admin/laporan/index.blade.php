@@ -9,10 +9,10 @@
     <form action="{{ route('laporan.index') }}" method="GET" style="display:flex; gap:10px; margin-bottom:25px; align-items:center;">
         <label>Dari:</label>
         <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}" style="padding: 8px; border-radius: 8px; border: 1px solid #ddd;">
-        
+
         <label>Sampai:</label>
         <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}" style="padding: 8px; border-radius: 8px; border: 1px solid #ddd;">
-        
+
         <button type="submit" class="btn-primary" style="cursor:pointer;">Filter</button>
         <a href="{{ route('laporan.index') }}" class="btn-danger" style="text-decoration:none;">Reset</a>
     </form>
@@ -31,7 +31,7 @@
             @foreach($permintaans as $p)
             <tr>
                 <td>{{ $p->created_at->format('d/m/Y') }}</td>
-                <td>{{ $p->user->name ?? 'Chef' }}</td>
+<td>{{ $p->requester->nama ?? '-' }}</td>
                 <td>{{ $p->barang->nama ?? 'Barang' }}</td>
                 <td>{{ $p->jumlah_diminta }}</td>
                 <td>

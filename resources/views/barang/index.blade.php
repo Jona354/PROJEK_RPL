@@ -2,6 +2,20 @@
 
 @section('content')
 
+@if(session('success'))
+<div style="
+    background:#dcfce7;
+    color:#166534;
+    padding:12px 16px;
+    border-radius:10px;
+    margin-bottom:20px;
+    border:1px solid #bbf7d0;
+    font-weight:600;
+">
+    {{ session('success') }}
+</div>
+@endif
+
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;">
 
     <div>
@@ -221,7 +235,7 @@ table tbody tr:hover{
             if (textContent.includes(searchTerm)) {
                 // 2. Beri warna highlight (Kuning)
                 row.style.backgroundColor = '#fef08a';
-                
+
                 // 3. Scroll ke baris pertama yang ditemukan
                 row.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }

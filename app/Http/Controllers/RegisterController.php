@@ -8,20 +8,36 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    // Menampilkan halaman register
+    /**
+     * Menampilkan daftar user
+     */
+    public function index()
+    {
+        $users = User::latest()->get();
+
+        return view('auth.index', compact('users'));
+    }
+
+
+    /**
+     * Menampilkan halaman tambah user
+     */
     public function create()
     {
         return view('auth.register');
     }
 
-    // Menyimpan data user baru
+
+    /**
+     * Menyimpan data user baru
+     */
     public function store(Request $request)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
             'password' => 'required|string|min:6',
-            'role' => 'required|in:owner,admin_gudang,staff_gudang,chef',
+            'role' => 'required|in:staff_gudang,chef',
         ]);
 
         User::create([
@@ -31,7 +47,8 @@ class RegisterController extends Controller
             'role' => $request->role,
         ]);
 
-        return redirect('/register')
+        return redirect()
+            ->route('register')
             ->with('success', 'User berhasil ditambahkan!');
     }
 }
