@@ -6,6 +6,7 @@ use App\Models\TransaksiMasuk;
 use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TransaksiMasukController extends Controller
 {
@@ -41,7 +42,7 @@ class TransaksiMasukController extends Controller
         // Siapkan data transaksi
         $data = $request->all();
 
-        $data['user_id'] = auth()->id();
+        $data['user_id'] = Auth::user()->id;
 
         // Hitung total harga
         $data['harga_total'] = $request->jumlah * $barang->harga_satuan;
@@ -58,7 +59,7 @@ class TransaksiMasukController extends Controller
         ->route('barang-masuk.index')
         ->with('success', 'Data berhasil disimpan');
 }
-    public function destroy($id)
+    public function destroy(int $id)
     {
         DB::transaction(function () use ($id) {
             $transaksi = TransaksiMasuk::findOrFail($id);

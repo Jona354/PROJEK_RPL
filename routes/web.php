@@ -11,23 +11,29 @@ use App\Http\Controllers\PermintaanController;
 use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 
+// ============================
 // Redirect awal
+// ============================
 Route::get('/', function () {
     return redirect('/login');
 });
 
+// ============================
 // Authentication
+// ============================
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
 
 // ============================
-// DASHBOARD (Semua role)
+// Dashboard (semua role)
 // ============================
 Route::middleware('auth')->group(function () {
+
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
+
 });
 
 
@@ -47,25 +53,21 @@ Route::middleware(['auth', 'role:owner'])->group(function () {
 // ============================
 Route::middleware(['auth', 'role:admin_gudang'])->group(function () {
 
-    // Data Barang (Master Data)
+    // Master Barang
     Route::resource('barang', BarangController::class);
 
-    // Data Supplier
+    // Supplier
     Route::resource('supplier', SupplierController::class);
 
-    // Kelola User
+    // User
+    Route::get('/register', [RegisterController::class, 'index'])
+        ->name('register');
 
-// Daftar user
-Route::get('/register', [RegisterController::class, 'index'])
-    ->name('register');
+    Route::get('/register/create', [RegisterController::class, 'create'])
+        ->name('register.create');
 
-// Form tambah user
-Route::get('/register/create', [RegisterController::class, 'create'])
-    ->name('register.create');
-
-// Simpan user baru
-Route::post('/register', [RegisterController::class, 'store'])
-    ->name('register.store');
+    Route::post('/register', [RegisterController::class, 'store'])
+        ->name('register.store');
 
     // Laporan
     Route::get('/admin/laporan', [LaporanController::class, 'index'])
@@ -73,7 +75,6 @@ Route::post('/register', [RegisterController::class, 'store'])
 
     Route::get('/admin/laporan/export', [LaporanController::class, 'export'])
         ->name('laporan.export');
-
 });
 
 
@@ -86,11 +87,8 @@ Route::middleware(['auth', 'role:staff_gudang'])->group(function () {
     Route::resource('barang-masuk', TransaksiMasukController::class);
 
     // Barang Keluar
-    Route::resource('barang-keluar', TransaksiKeluarController::class);
-
-    // Melihat daftar permintaan dari chef
-    Route::get('/permintaan', [PermintaanController::class, 'index'])
-        ->name('permintaan.index');
+    Route::resource('barang-keluar', TransaksiKeluarController::class)
+        ->only(['index', 'destroy']);
 
     // Approve permintaan
     Route::post('/permintaan/{id}/approve',
@@ -106,11 +104,24 @@ Route::middleware(['auth', 'role:staff_gudang'])->group(function () {
 
 
 // ============================
+// STAFF GUDANG + CHEF
+// ============================
+Route::middleware(['auth', 'role:staff_gudang,chef'])->group(function () {
+
+    // Daftar permintaan
+    Route::get('/permintaan',
+        [PermintaanController::class, 'index'])
+        ->name('permintaan.index');
+
+});
+
+
+// ============================
 // CHEF
 // ============================
 Route::middleware(['auth', 'role:chef'])->group(function () {
 
-    // Halaman membuat permintaan
+    // Form permintaan
     Route::get('/permintaan/create',
         [PermintaanController::class, 'create'])
         ->name('permintaan.create');

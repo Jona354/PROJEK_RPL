@@ -32,7 +32,7 @@
     border:none;
     border-radius:8px;
 }
-///
+
 .table-modern{
     width:100%;
     border-collapse:collapse;
@@ -54,7 +54,7 @@
     border-bottom:1px solid #eee;
 }
 
-///
+
 
 .stats{
     display:grid;
@@ -78,7 +78,7 @@
     font-size:32px;
 }
 
-///
+
 .navbar{
     height:75px;
     background:white;
@@ -104,43 +104,43 @@
     cursor:pointer;
 }
 
-///
+
 
 .sidebar{
-    width:260px;
+    width:270px;
     height:100vh;
     position:fixed;
-    background:#111827;
+    background:linear-gradient(180deg,#1e3a8a,#2563eb);
     color:white;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
 
 .logo{
-    padding:25px;
-    font-size:24px;
-    font-weight:700;
-    border-bottom:1px solid #374151;
+    padding:30px;
+    border-bottom:1px solid rgba(255,255,255,.15);
 }
 
 .menu{
-    padding:15px;
+    padding:20px;
 }
 
 .menu a{
     display:block;
-    color:#d1d5db;
+    color:white;
     text-decoration:none;
-    padding:14px 18px;
-    margin-bottom:8px;
-    border-radius:10px;
+    padding:15px 20px;
+    margin-bottom:12px;
+    border-radius:15px;
     transition:.3s;
+    font-weight:500;
 }
 
 .menu a:hover{
-    background:#2563eb;
-    color:white;
+    background:rgba(255,255,255,.18);
+    transform:translateX(8px);
 }
 
-//////
+
 
 *{
     margin:0;
@@ -160,7 +160,7 @@ body{
 
 .content{
     flex:1;
-    margin-left:250px;
+    margin-left:270px;
 }
 
 .main-content{
@@ -168,7 +168,8 @@ body{
 }
 
 </style>
-
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 

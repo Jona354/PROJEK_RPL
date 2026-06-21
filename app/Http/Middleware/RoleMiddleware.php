@@ -4,24 +4,23 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
-    // Kita buat $roles sebagai parameter opsional
-    public function handle(Request $request, Closure $next, ...$roles): Response
+    public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             return redirect('/login');
         }
 
-        // Jika tidak ada role yang diberikan, tolak saja
-        if (empty($roles)) {
-            abort(403, 'Akses ditolak: Tidak ada role yang ditentukan.');
+        // Pecah jika role masih berupa "staff_gudang,chef"
+        if (count($roles) == 1 && str_contains($roles[0], ',')) {
+            $roles = explode(',', $roles[0]);
         }
 
-        // PENTING: Pastikan role user saat ini adalah bagian dari daftar $roles
-        if (!in_array(auth()->user()->role, $roles)) {
+        if (!in_array(Auth::user()->role, $roles)) {
             abort(403, 'Anda tidak memiliki akses.');
         }
 

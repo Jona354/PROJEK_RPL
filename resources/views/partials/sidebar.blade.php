@@ -1,38 +1,55 @@
-<div style="width:250px; height:100vh; position:fixed; background:#111827; color:white;">
-    <div style="padding:25px; font-size:24px; font-weight:bold; border-bottom:1px solid #374151;">
-        SIGURESTO
+<div class="sidebar">
+
+    <div class="logo">
+
+        <div style="font-size:32px;margin-bottom:8px">
+            <i class="fa-solid fa-warehouse"></i>
+        </div>
+
+        <div style="font-size:24px;font-weight:700">
+            SIGURESTO
+        </div>
+
+        <div style="
+        font-size:13px;
+        opacity:.8;
+        margin-top:5px;">
+            Sistem Gudang Restoran
+        </div>
+
     </div>
 
-    <div style="padding:15px;">
 
-        {{-- Dashboard untuk semua role --}}
-        <a href="{{ url('/dashboard') }}"
-           style="display:block;padding:12px;color:white;text-decoration:none;">
-           Dashboard
+    <div class="menu">
+
+        {{-- Dashboard --}}
+        <a href="{{ url('/dashboard') }}">
+            <i class="fa-solid fa-chart-line"></i>
+            Dashboard
         </a>
 
 
         {{-- ADMIN GUDANG --}}
         @if(auth()->user()->role === 'admin_gudang')
 
-            <a href="{{ route('barang.index') }}"
-               style="display:block;padding:12px;color:white;text-decoration:none;">
-               Data Barang
+            <a href="{{ route('barang.index') }}">
+                <i class="fa-solid fa-boxes-stacked"></i>
+                Data Barang
             </a>
 
-            <a href="{{ route('supplier.index') }}"
-               style="display:block;padding:12px;color:white;text-decoration:none;">
-               Supplier
+            <a href="{{ route('supplier.index') }}">
+                <i class="fa-solid fa-truck-field"></i>
+                Supplier
             </a>
 
-            <a href="{{ route('register') }}"
-               style="display:block;padding:12px;color:white;text-decoration:none;">
-               Kelola User
+            <a href="{{ route('register') }}">
+                <i class="fa-solid fa-users"></i>
+                Kelola User
             </a>
 
-            <a href="{{ route('laporan.index') }}"
-               style="display:block;padding:12px;color:white;text-decoration:none;">
-               Laporan
+            <a href="{{ route('laporan.index') }}">
+                <i class="fa-solid fa-file-lines"></i>
+                Laporan
             </a>
 
         @endif
@@ -41,19 +58,19 @@
         {{-- STAFF GUDANG --}}
         @if(auth()->user()->role === 'staff_gudang')
 
-            <a href="{{ route('barang-masuk.index') }}"
-               style="display:block;padding:12px;color:white;text-decoration:none;">
-               Barang Masuk
+            <a href="{{ route('barang-masuk.index') }}">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                Barang Masuk
             </a>
 
-            <a href="{{ route('barang-keluar.index') }}"
-               style="display:block;padding:12px;color:white;text-decoration:none;">
-               Barang Keluar
+            <a href="{{ route('barang-keluar.index') }}">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                Barang Keluar
             </a>
 
-            <a href="{{ route('permintaan.index') }}"
-               style="display:block;padding:12px;color:white;text-decoration:none;">
-               Permintaan Barang
+            <a href="{{ route('permintaan.index') }}">
+                <i class="fa-solid fa-clipboard-list"></i>
+                Permintaan Barang
             </a>
 
         @endif
@@ -62,9 +79,9 @@
         {{-- CHEF --}}
         @if(auth()->user()->role === 'chef')
 
-            <a href="{{ route('permintaan.create') }}"
-               style="display:block;padding:12px;color:white;text-decoration:none;">
-               Buat Permintaan Barang
+            <a href="{{ route('permintaan.create') }}">
+                <i class="fa-solid fa-utensils"></i>
+                Buat Permintaan Barang
             </a>
 
         @endif
@@ -73,12 +90,13 @@
         {{-- OWNER --}}
         @if(auth()->user()->role === 'owner')
 
-            <a href="{{ route('owner.laporan') }}"
-               style="display:block;padding:12px;color:white;text-decoration:none;">
-               Laporan
+            <a href="{{ route('owner.laporan') }}">
+                <i class="fa-solid fa-chart-pie"></i>
+                Laporan
             </a>
 
         @endif
 
     </div>
+
 </div>

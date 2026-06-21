@@ -40,9 +40,9 @@ class PermintaanBarang extends Model
         return $this->belongsTo(User::class, 'approver_id');
     }
 
-    public function user() 
-    { 
-        return $this->belongsTo(User::class, 'requester_id', 'id'); 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'requester_id', 'id');
     }
 
 }
