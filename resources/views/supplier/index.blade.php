@@ -128,23 +128,23 @@
 
 
         <form
-            action="{{ route('supplier.destroy',$supplier->id) }}"
-            method="POST"
-            style="display:inline">
+    action="{{ route('supplier.destroy',$supplier->id) }}"
+    method="POST"
+    style="display:inline;"
+    class="delete-form">
 
-            @csrf
-            @method('DELETE')
+    @csrf
+    @method('DELETE')
 
+    <button
+        type="button"
+        class="btn-delete delete-btn">
 
-            <button
-                onclick="return confirm('Yakin ingin menghapus supplier ini?')"
-                class="btn-delete">
+        Hapus
 
-                Hapus
+    </button>
 
-            </button>
-
-        </form>
+</form>
 
     </td>
 
@@ -322,6 +322,35 @@
 
 
 </style>
+<script>
 
+document.querySelectorAll('.delete-btn').forEach(button => {
+
+    button.addEventListener('click', function(){
+
+        let form = this.closest('.delete-form');
+
+        Swal.fire({
+            title: 'Hapus Supplier?',
+            text: 'Data supplier yang dihapus tidak dapat dikembalikan.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Ya, Hapus',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+
+            if(result.isConfirmed){
+                form.submit();
+            }
+
+        });
+
+    });
+
+});
+
+</script>
 
 @endsection

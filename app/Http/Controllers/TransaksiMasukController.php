@@ -27,32 +27,44 @@ class TransaksiMasukController extends Controller
    public function store(Request $request)
 {
     $request->validate([
-        'barang_id'   => 'required|exists:barang,id',
-        'jumlah'      => 'required|numeric|min:1',
-        'tanggal'     => 'required|date',
-        'supplier_id' => 'required',
-        'no_faktur'   => 'required',
+        'barang_id'           => 'required|exists:barang,id',
+        'jumlah'              => 'required|numeric|min:1',
+        'tanggal'             => 'required|date',
+        'supplier_id'         => 'required',
+        'no_faktur'           => 'required',
+        'tanggal_kadaluarsa'  => 'nullable|date',
     ]);
 
     DB::transaction(function () use ($request) {
 
-        // Cari data barang
+        // Cari barang
         $barang = Barang::findOrFail($request->barang_id);
 
-        // Siapkan data transaksi
+        // Data transaksi
         $data = $request->all();
 
         $data['user_id'] = Auth::user()->id;
 
         // Hitung total harga
-        $data['harga_total'] = $request->jumlah * $barang->harga_satuan;
+        $data['harga_total'] =
+            $request->jumlah * $barang->harga_satuan;
 
         // Simpan transaksi
         TransaksiMasuk::create($data);
 
         // Tambah stok barang
         $barang->stok_saat_ini += $request->jumlah;
+
+        // Update tanggal kadaluarsa jika diisi
+        if ($request->filled('tanggal_kadaluarsa')) {
+
+            $barang->tanggal_kadaluarsa =
+                $request->tanggal_kadaluarsa;
+
+        }
+
         $barang->save();
+
     });
 
     return redirect()

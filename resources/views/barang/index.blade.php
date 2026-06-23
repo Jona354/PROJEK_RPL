@@ -164,17 +164,17 @@ border-collapse:collapse;
            style="background:#f59e0b; color:white; padding:8px 12px; border-radius:6px; text-decoration:none;">
             Edit
         </a>
-        <form action="{{ route('barang.destroy',$item->id) }}" method="POST" style="display:inline;">
-            @csrf
-            @method('DELETE')
-
-            <button type="submit"
-                    onclick="return confirm('Yakin hapus data?')"
-                    style="background:#ef4444; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">
-                Hapus
-            </button>
-
-        </form>
+        <a href="{{ route('barang.show',$item->id) }}"
+   style="
+   background:#10b981;
+   color:white;
+   padding:8px 12px;
+   border-radius:6px;
+   text-decoration:none;
+   margin-left:5px;
+   ">
+    Detail
+</a>
 
     </td>
 

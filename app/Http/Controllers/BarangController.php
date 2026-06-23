@@ -87,6 +87,12 @@ class BarangController extends Controller
         ->with('success', 'Data barang berhasil ditambahkan');
 }
 
+public function show(string $id)
+{
+    $barang = Barang::with('supplier')->findOrFail($id);
+
+    return view('barang.show', compact('barang'));
+}
     /**
      * Menampilkan form edit barang
      */

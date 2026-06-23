@@ -114,16 +114,33 @@ border-collapse:collapse;
 
             <td>
 
-                <button class="btn-edit">
-                    Edit
-                </button>
+
+{{-- Tombol Edit --}}
+<a href="{{ route('register.edit',$user->id) }}"
+   class="btn-edit">
+    Edit
+</a>
 
 
-                <button class="btn-delete">
-                    Hapus
-                </button>
+{{-- Tombol Hapus --}}
+<form action="{{ route('register.destroy',$user->id) }}"
+      method="POST"
+      style="display:inline;"
+      class="delete-form">
 
-            </td>
+    @csrf
+    @method('DELETE')
+
+    <button type="button"
+            class="btn-delete delete-btn">
+        Hapus
+    </button>
+
+</form>
+
+
+</td>
+
 
         </tr>
 
@@ -193,5 +210,34 @@ table tbody tr:hover {
 }
 
 </style>
+<script>
 
+document.querySelectorAll('.delete-btn').forEach(button => {
+
+    button.addEventListener('click', function(){
+
+        let form = this.closest('.delete-form');
+
+        Swal.fire({
+            title: 'Hapus User?',
+            text: 'Data user yang dihapus tidak dapat dikembalikan.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Ya, Hapus',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+
+            if(result.isConfirmed){
+                form.submit();
+            }
+
+        });
+
+    });
+
+});
+
+</script>
 @endsection

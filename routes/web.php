@@ -69,6 +69,15 @@ Route::middleware(['auth', 'role:admin_gudang'])->group(function () {
     Route::post('/register', [RegisterController::class, 'store'])
         ->name('register.store');
 
+    Route::get('/register/{id}/edit', [RegisterController::class, 'edit'])
+    ->name('register.edit');
+
+Route::put('/register/{id}', [RegisterController::class, 'update'])
+    ->name('register.update');
+
+Route::delete('/register/{id}', [RegisterController::class, 'destroy'])
+    ->name('register.destroy');
+
     // Laporan
     Route::get('/admin/laporan', [LaporanController::class, 'index'])
         ->name('laporan.index');
