@@ -11,6 +11,8 @@ class TransaksiKeluar extends Model
 
     protected $table = 'transaksi_keluar';
 
+    
+
     protected $fillable = [
         'barang_id',
         'user_id',
@@ -33,4 +35,12 @@ class TransaksiKeluar extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function index()
+{
+    // Mengambil data transaksi keluar beserta data barang terkait
+    $barangKeluar = \App\Models\TransaksiKeluar::with(['barang'])->latest()->get();
+
+    return view('barang-keluar.index', compact('barangKeluar'));
+}
 }

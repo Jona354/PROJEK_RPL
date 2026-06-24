@@ -74,7 +74,7 @@ elseif ($role == 'admin_gudang') {
         'stokHabis',
         'stokMenipis',
         'stokAman',
-        'barangKadaluarsa'
+        'barangKadaluarsa',
     ));
 }
 

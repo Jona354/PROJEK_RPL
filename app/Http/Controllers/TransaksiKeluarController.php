@@ -11,11 +11,12 @@ class TransaksiKeluarController extends Controller
     // Menampilkan riwayat barang keluar
     public function index()
     {
-        $transaksi = TransaksiKeluar::with('barang')
+        // PERBAIKAN: Mengubah nama variabel menjadi $barangKeluar agar sinkron dengan file Blade
+        $barangKeluar = TransaksiKeluar::with('barang')
             ->latest()
             ->get();
 
-        return view('transaksi.keluar.index', compact('transaksi'));
+        return view('transaksi.keluar.index', compact('barangKeluar'));
     }
 
     // Menghapus transaksi barang keluar
@@ -30,18 +31,18 @@ class TransaksiKeluarController extends Controller
         }
 
         DB::transaction(function () use ($transaksi) {
-
-            // Kembalikan stok barang
+            // Kembalikan stok barang ke master barang
             $barang = Barang::findOrFail($transaksi->barang_id);
             $barang->stok_saat_ini += $transaksi->jumlah;
             $barang->save();
 
-            // Hapus transaksi
+            // Hapus riwayat transaksi keluar
             $transaksi->delete();
         });
 
+        // PERBAIKAN: Menggunakan redirect()->route() setelah proses delete berhasil
         return redirect()
             ->route('barang-keluar.index')
-            ->with('success', 'Data berhasil dihapus');
+            ->with('success', 'Riwayat transaksi keluar berhasil dihapus dan stok dikembalikan!');
     }
 }

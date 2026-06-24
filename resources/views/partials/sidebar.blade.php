@@ -47,7 +47,7 @@
                 Kelola User
             </a>
 
-            <a href="{{ route('laporan.index') }}">
+            <a href="{{ route('admin.laporan.index') }}">
                 <i class="fa-solid fa-file-lines"></i>
                 Laporan
             </a>
@@ -90,7 +90,7 @@
         {{-- OWNER --}}
         @if(auth()->user()->role === 'owner')
 
-            <a href="{{ route('owner.laporan') }}">
+            <a href="{{ route('owner.laporan.index') }}">
                 <i class="fa-solid fa-chart-pie"></i>
                 Laporan
             </a>

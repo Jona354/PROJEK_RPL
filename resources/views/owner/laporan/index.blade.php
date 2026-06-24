@@ -8,13 +8,13 @@
         <h2 style="color:#111827;">Laporan Gudang</h2>
 
         <div>
-            <a href="{{ route('admin.laporan.export', ['jenis' => request('jenis'), 'format' => 'excel']) }}"
+            <a href="{{ route('owner.laporan.export', ['jenis' => request('jenis'), 'format' => 'excel']) }}"
                class="btn-primary"
                style="margin-right:10px;">
                 Export Excel
             </a>
 
-            <a href="{{ route('admin.laporan.export', ['jenis' => request('jenis'), 'format' => 'pdf']) }}"
+            <a href="{{ route('owner.laporan.export', ['jenis' => request('jenis'), 'format' => 'pdf']) }}"
                class="btn-danger">
                 Export PDF
             </a>
@@ -23,7 +23,7 @@
 
 
     {{-- FILTER --}}
-    <form action="{{ route('admin.laporan.index') }}"
+    <form action="{{ route('owner.laporan.index') }}"
           method="GET"
           style="display:flex;gap:10px;align-items:center;margin-bottom:25px;flex-wrap:wrap;">
 
@@ -61,7 +61,7 @@
             Filter
         </button>
 
-        <a href="{{ route('admin.laporan.index') }}"
+        <a href="{{ route('owner.laporan.index') }}"
            class="btn-danger"
            style="text-decoration:none;">
             Reset

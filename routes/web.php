@@ -41,10 +41,8 @@ Route::middleware('auth')->group(function () {
 // OWNER
 // ============================
 Route::middleware(['auth', 'role:owner'])->group(function () {
-
-    Route::get('/laporan', [LaporanController::class, 'index'])
-        ->name('owner.laporan');
-
+Route::get('/owner/laporan/index', [LaporanController::class, 'index'])->name('owner.laporan.index');
+Route::get('/owner/laporan/export', [LaporanController::class, 'export'])->name('owner.laporan.export');
 });
 
 
@@ -79,11 +77,11 @@ Route::delete('/register/{id}', [RegisterController::class, 'destroy'])
     ->name('register.destroy');
 
     // Laporan
-    Route::get('/admin/laporan', [LaporanController::class, 'index'])
-        ->name('laporan.index');
+    Route::get('/admin/laporan/index', [LaporanController::class, 'index'])
+        ->name('admin.laporan.index');
 
     Route::get('/admin/laporan/export', [LaporanController::class, 'export'])
-        ->name('laporan.export');
+        ->name('admin.laporan.export');
 });
 
 

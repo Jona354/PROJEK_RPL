@@ -42,7 +42,8 @@ class PermintaanController extends Controller
                 'jumlah'    => $permintaan->jumlah_diminta,
                 'tujuan'    => 'dapur',
                 'tanggal'   => now()->toDateString(),
-                'user_id'   => $permintaan->requester_id,
+                'requester_id' => Auth::user()->id,
+
             ]);
         });
 
