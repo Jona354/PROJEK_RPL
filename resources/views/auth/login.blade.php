@@ -216,11 +216,11 @@
 
             <p>Silakan masuk ke sistem</p>
 
-            @if(session('error'))
-                <div class="alert">
-                    {{ session('error') }}
-                </div>
-            @endif
+     @if(session('login_error'))
+<div class="alert">
+    Username atau password yang Anda masukkan tidak sesuai.
+</div>
+@endif
 
             <form action="/login" method="POST">
 
@@ -286,5 +286,19 @@ function togglePassword() {
 
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if(session('login_error'))
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Login Gagal',
+    text: 'Username atau password yang Anda masukkan tidak sesuai.',
+    confirmButtonColor: '#2563eb',
+    confirmButtonText: 'Coba Lagi'
+});
+</script>
+@endif
+
 </body>
 </html>

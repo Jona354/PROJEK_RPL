@@ -17,18 +17,32 @@ public function login(Request $request)
 {
     $credentials = $request->validate([
         'username' => ['required'],
-        'password' => ['required']
+        'password' => ['required'],
     ]);
 
-    if(Auth::attempt($credentials))
-    {
-        $request->session()->regenerate();
+    if (Auth::attempt($credentials)) {
 
-        return redirect('/dashboard');
-    }
+    $request->session()->regenerate();
 
-    return back()->withErrors([
-        'username' => 'Username atau Password salah'
+    $user = Auth::user();
+
+    $roleText = match($user->role){
+        'admin' => 'Admin',
+        'staff' => 'Staff Gudang',
+        'chef'  => 'Chef',
+        default => 'User'
+    };
+
+    return redirect()->route('dashboard')->with([
+        'login_success' => true,
+        'message' => 'Selamat datang '.$roleText.', '.$user->nama
+    ]);
+}
+
+    return back()->withInput()->with([
+        'login_error' => true,
+        'title' => 'Login Gagal',
+        'message' => 'Username atau Password salah.',
     ]);
 }
 

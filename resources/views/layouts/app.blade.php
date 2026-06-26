@@ -241,6 +241,36 @@
         }
     });
 </script>
+@if(session('login_success'))
+<script>
+document.addEventListener('DOMContentLoaded', function(){
 
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: '{{ session("message") }}',
+        showConfirmButton: false,
+        timer:  3500,
+        timerProgressBar: true
+    });
+
+});
+</script>
+@endif
+
+@if(session('success'))
+<script>
+Swal.fire({
+    toast: true,
+    position: 'top-end',
+    icon: 'success',
+    title: '{{ session("message") }}',
+    showConfirmButton: false,
+    timer: 1800,
+    timerProgressBar: true
+});
+</script>
+@endif
 </body>
 </html>
