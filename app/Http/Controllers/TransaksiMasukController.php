@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TransaksiMasuk;
 use App\Models\Barang;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -64,6 +65,17 @@ class TransaksiMasukController extends Controller
         }
 
         $barang->save();
+
+        Notifikasi::create([
+    'barang_id' => $barang->id,
+    'tipe' => 'barang_masuk',
+    'pesan' => 'Barang masuk: ' .
+               $barang->nama .
+               ' sebanyak ' .
+               $request->jumlah . ' ' .
+               $barang->satuan,
+    'sudah_dibaca' => 0
+]);
 
     });
 

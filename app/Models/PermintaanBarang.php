@@ -25,6 +25,8 @@ class PermintaanBarang extends Model
         'approved_at' => 'datetime'
     ];
 
+
+    
     public function barang()
     {
         return $this->belongsTo(Barang::class, 'barang_id', 'id');

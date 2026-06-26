@@ -199,4 +199,140 @@ document.addEventListener("DOMContentLoaded", function(){
 
 </script>
 
+<br><br>
+
+<div class="summary-card">
+
+    <h2 class="summary-title">
+        Riwayat Permintaan Terbaru
+    </h2>
+
+    <div style="overflow-x:auto;">
+
+        <table style="
+        width:100%;
+        border-collapse:collapse;
+        ">
+
+            <thead>
+
+                <tr style="
+                background:#f3f4f6;
+                text-align:left;
+                ">
+
+                    <th style="padding:15px;">Barang</th>
+                    <th style="padding:15px;">Jumlah</th>
+                    <th style="padding:15px;">Status</th>
+                    <th style="padding:15px;">Tanggal</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @forelse($permintaanTerbaru as $item)
+
+                <tr style="border-bottom:1px solid #e5e7eb;">
+
+                    <td style="padding:15px;">
+                        {{ $item->barang->nama ?? '-' }}
+                    </td>
+
+                    <td style="padding:15px;">
+                        {{ $item->jumlah_diminta }}
+                    </td>
+
+                    <td style="padding:15px;">
+
+                        @if($item->status == 'pending')
+
+                            <span style="
+                            background:#fef3c7;
+                            color:#92400e;
+                            padding:6px 12px;
+                            border-radius:20px;
+                            font-size:13px;
+                            font-weight:600;
+                            ">
+                                Pending
+                            </span>
+
+                        @elseif($item->status == 'disetujui')
+
+                            <span style="
+                            background:#dcfce7;
+                            color:#166534;
+                            padding:6px 12px;
+                            border-radius:20px;
+                            font-size:13px;
+                            font-weight:600;
+                            ">
+                                Disetujui
+                            </span>
+
+                        @else
+
+                            <span style="
+                            background:#fee2e2;
+                            color:#991b1b;
+                            padding:6px 12px;
+                            border-radius:20px;
+                            font-size:13px;
+                            font-weight:600;
+                            ">
+                                Ditolak
+                            </span>
+
+                        @endif
+
+                    </td>
+
+                    <td style="padding:15px;">
+                        {{ $item->created_at->format('d M Y') }}
+                    </td>
+
+                </tr>
+
+                @empty
+
+                <tr>
+
+                    <td colspan="4"
+                    style="
+                    text-align:center;
+                    padding:30px;
+                    color:#6b7280;
+                    ">
+
+                        Belum ada riwayat permintaan
+
+                    </td>
+
+                </tr>
+
+                @endforelse
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div style="text-align:right;margin-top:20px;">
+
+        <a href="{{ route('permintaan.index') }}"
+        style="
+        color:#2563eb;
+        font-weight:600;
+        text-decoration:none;
+        ">
+            Lihat Semua →
+        </a>
+
+    </div>
+
+</div>
+
 @endsection

@@ -9,6 +9,7 @@ use App\Http\Controllers\TransaksiKeluarController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PermintaanController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\NotifikasiController;
 use Illuminate\Support\Facades\Route;
 
 // ============================
@@ -138,3 +139,19 @@ Route::middleware(['auth', 'role:chef'])->group(function () {
         ->name('permintaan.store');
 
 });
+
+Route::post('/notifikasi/baca-semua', function () {
+
+    \App\Models\Notifikasi::where('sudah_dibaca',0)
+        ->update([
+            'sudah_dibaca' => 1
+        ]);
+
+    return response()->json([
+        'success' => true
+    ]);
+})->middleware('auth');
+
+
+Route::post('/notifikasi/read', [NotifikasiController::class, 'readAll'])
+    ->name('notifikasi.read');

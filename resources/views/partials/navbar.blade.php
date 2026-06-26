@@ -1,3 +1,4 @@
+
 <div style="
 height:80px;
 background:white;
@@ -58,22 +59,98 @@ box-shadow:0 3px 15px rgba(0,0,0,.05);
             </div>
         </div>
 
+<!-- Notifikasi -->
+<div style="position:relative;">
 
-        <!-- Notifikasi -->
+    <div onclick="toggleNotif()"
+    style="
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#f3f4f6;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    ">
+
+        <i class="fa-solid fa-bell" style="color:#f59e0b"></i>
+
+        @if(isset($jumlahNotif) && $jumlahNotif > 0)
+        <span id="badgeNotif"
+style="
+position:absolute;
+top:-5px;
+right:-5px;
+background:red;
+color:white;
+width:20px;
+height:20px;
+border-radius:50%;
+font-size:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+">
+    {{ $jumlahNotif }}
+</span>
+        @endif
+
+    </div>
+
+    <div id="notifBox"
+    style="
+    display:none;
+    position:absolute;
+    right:0;
+    top:55px;
+    width:350px;
+    background:white;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+    z-index:999;
+    max-height:400px;
+    overflow-y:auto;
+    ">
+
         <div style="
-        width:45px;
-        height:45px;
-        border-radius:50%;
-        background:#f3f4f6;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:18px;
-        cursor:pointer;
-        transition:.3s;
+        padding:15px;
+        font-weight:bold;
+        border-bottom:1px solid #eee;
         ">
-            <i class="fa-solid fa-bell" style="color:#f59e0b"></i>
+            Notifikasi
         </div>
+
+        @if(isset($notifikasi))
+            @forelse($notifikasi as $n)
+
+            <div style="
+            padding:12px 15px;
+            border-bottom:1px solid #eee;
+            ">
+
+                {{ $n->pesan }}
+
+                <br>
+
+                <small style="color:gray">
+                    {{ $n->created_at->diffForHumans() }}
+                </small>
+
+            </div>
+
+            @empty
+
+            <div style="padding:15px">
+                Tidak ada notifikasi
+            </div>
+
+            @endforelse
+        @endif
+
+    </div>
+
+</div>
 
 
         <!-- User -->
@@ -164,4 +241,39 @@ setInterval(updateJam,1000);
 
 updateJam();
 
+</script>
+
+<script>
+function toggleNotif()
+{
+    let box = document.getElementById('notifBox');
+
+    if(box.style.display === 'block')
+    {
+        box.style.display = 'none';
+    }
+    else
+    {
+        box.style.display = 'block';
+
+        fetch('/notifikasi/read', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            let badge = document.getElementById('badgeNotif');
+
+            if(badge)
+            {
+                badge.style.display = 'none';
+            }
+
+        });
+    }
+}
 </script>

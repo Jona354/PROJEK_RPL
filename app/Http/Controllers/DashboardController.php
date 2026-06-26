@@ -133,11 +133,19 @@ elseif ($role == 'staff_gudang') {
     ->where('status', 'ditolak')
     ->count();
 
+    // Riwayat permintaan terbaru
+    $permintaanTerbaru = PermintaanBarang::with('barang')
+        ->where('requester_id', auth()->id())
+        ->latest()
+        ->take(5)
+        ->get();
+
     return view('dashboard.chef', compact(
         'permintaanSaya',
         'permintaanPending',
         'permintaanDisetujui',
-        'permintaanDitolak'
+        'permintaanDitolak',
+        'permintaanTerbaru'
     ));
 }
 

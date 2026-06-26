@@ -8,6 +8,7 @@ use App\Models\Barang;
 use App\Models\TransaksiKeluar;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Notifikasi;
 
 class PermintaanController extends Controller
 {
@@ -47,6 +48,17 @@ class PermintaanController extends Controller
             ]);
         });
 
+        $barang = Barang::findOrFail($permintaan->barang_id);
+
+Notifikasi::create([
+    'barang_id' => $barang->id,
+    'tipe' => 'disetujui',
+    'pesan' => 'Permintaan '.$barang->nama_barang.
+               ' sebanyak '.$permintaan->jumlah_diminta.
+               ' telah disetujui',
+    'sudah_dibaca' => 0
+]);
+
         return back()->with('success', 'Barang berhasil disetujui');
     }
 
@@ -59,10 +71,21 @@ class PermintaanController extends Controller
         }
 
         $permintaan->update([
-            'status' => 'ditolak'
-        ]);
+    'status' => 'ditolak'
+]);
 
-        return back()->with('success', 'Permintaan berhasil ditolak');
+$barang = Barang::findOrFail($permintaan->barang_id);
+
+Notifikasi::create([
+    'barang_id' => $barang->id,
+    'tipe' => 'ditolak',
+    'pesan' => 'Permintaan '.$barang->nama_barang.
+               ' sebanyak '.$permintaan->jumlah_diminta.
+               ' ditolak',
+    'sudah_dibaca' => 0
+]);
+
+return back()->with('success', 'Permintaan berhasil ditolak');
     }
 
     public function store(Request $request)
@@ -87,6 +110,14 @@ class PermintaanController extends Controller
             'keterangan'     => $request->keterangan,
             'status'         => 'pending'
         ]);
+
+        Notifikasi::create([
+    'barang_id' => $barang->id,
+    'tipe' => 'permintaan',
+    'pesan' => 'Permintaan baru '.$barang->nama_barang.
+               ' sebanyak '.$request->jumlah_diminta,
+    'sudah_dibaca' => 0
+]);
 
         return redirect()
             ->route('permintaan.index')
