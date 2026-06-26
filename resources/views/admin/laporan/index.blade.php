@@ -8,11 +8,6 @@
         <h2 style="color:#111827;">Laporan Gudang</h2>
 
         <div>
-            <a href="{{ route('admin.laporan.export', ['jenis' => request('jenis'), 'format' => 'excel']) }}"
-               class="btn-primary"
-               style="margin-right:10px;">
-                Export Excel
-            </a>
 
             <a href="{{ route('admin.laporan.export', ['jenis' => request('jenis'), 'format' => 'pdf']) }}"
                class="btn-danger">

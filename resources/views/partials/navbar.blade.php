@@ -125,23 +125,13 @@ box-shadow:0 3px 15px rgba(0,0,0,.05);
         <form action="/logout" method="POST">
             @csrf
 
-            <button type="submit"
-            style="
-            background:#ef4444;
-            color:white;
-            border:none;
-            padding:12px 20px;
-            border-radius:12px;
-            cursor:pointer;
-            font-weight:600;
-            font-size:15px;
-            transition:.3s;
-            ">
-
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Logout
-
-            </button>
+        <div class="user-info">
+    <span>{{ Auth::user()->name }}</span>
+    
+    <button type="button" class="btn-logout">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+    </button>
+</div>
 
         </form>
 
