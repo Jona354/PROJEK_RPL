@@ -77,14 +77,14 @@
 
 
         {{-- CHEF --}}
-        @if(auth()->user()->role === 'chef')
+@if(auth()->user()->role === 'chef')
 
-            <a href="{{ route('permintaan.create') }}">
-                <i class="fa-solid fa-utensils"></i>
-                Buat Permintaan Barang
-            </a>
+    <a href="{{ route('permintaan.index') }}">
+        <i class="fa-solid fa-utensils"></i>
+        Permintaan Barang
+    </a>
 
-        @endif
+@endif
 
 
         {{-- OWNER --}}
