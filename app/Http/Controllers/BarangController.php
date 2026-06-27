@@ -16,7 +16,7 @@ class BarangController extends Controller
         $search = $request->input('search');
 
         // Data barang + pencarian + relasi supplier
-        $barang = Barang::with('supplier')
+        $barang = Barang::query()
             ->when($search, function ($query) use ($search) {
                 $query->where('nama', 'LIKE', '%' . $search . '%')
                     ->orWhere('kode_barang', 'LIKE', '%' . $search . '%');
@@ -49,11 +49,9 @@ class BarangController extends Controller
      * Menampilkan form tambah barang
      */
     public function create()
-    {
-        $suppliers = Supplier::all();
-
-        return view('barang.create', compact('suppliers'));
-    }
+{
+    return view('barang.create');
+}
 
     /**
      * Menyimpan barang baru
@@ -67,7 +65,6 @@ class BarangController extends Controller
         'satuan'        => 'required|string',
         'stok_minimum'  => 'required|numeric|min:0',
         'harga_satuan'  => 'required|numeric|min:0',
-        'supplier_id'   => 'required|exists:suppliers,id',
     ]);
 
     Barang::create([
@@ -79,7 +76,6 @@ class BarangController extends Controller
         'stok_minimum'      => $request->stok_minimum,
         'harga_satuan'      => $request->harga_satuan,
         'tanggal_kadaluarsa'=> $request->tanggal_kadaluarsa,
-        'supplier_id'       => $request->supplier_id,
     ]);
 
     return redirect()
@@ -89,7 +85,7 @@ class BarangController extends Controller
 
 public function show(string $id)
 {
-    $barang = Barang::with('supplier')->findOrFail($id);
+    $barang = Barang::findOrFail($id);
 
     return view('barang.show', compact('barang'));
 }
@@ -97,12 +93,11 @@ public function show(string $id)
      * Menampilkan form edit barang
      */
     public function edit(string $id)
-    {
-        $barang = Barang::findOrFail($id);
-        $suppliers = Supplier::all();
+{
+    $barang = Barang::findOrFail($id);
 
-        return view('barang.edit', compact('barang', 'suppliers'));
-    }
+    return view('barang.edit', compact('barang'));
+}
 
     /**
      * Menyimpan perubahan barang
@@ -116,7 +111,6 @@ public function show(string $id)
         'satuan'        => 'required|string',
         'stok_minimum'  => 'required|numeric|min:0',
         'harga_satuan'  => 'required|numeric|min:0',
-        'supplier_id'   => 'required|exists:suppliers,id',
     ]);
 
     $barang = Barang::findOrFail($id);
@@ -129,7 +123,6 @@ public function show(string $id)
         'stok_minimum'      => $request->stok_minimum,
         'harga_satuan'      => $request->harga_satuan,
         'tanggal_kadaluarsa'=> $request->tanggal_kadaluarsa,
-        'supplier_id'       => $request->supplier_id,
     ]);
 
     return redirect()

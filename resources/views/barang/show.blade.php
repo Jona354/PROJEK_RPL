@@ -104,11 +104,6 @@
         </div>
 
         <div class="info-box">
-            <h4>Supplier</h4>
-            <h3>{{ $barang->supplier->nama ?? '-' }}</h3>
-        </div>
-
-        <div class="info-box">
             <h4>Harga Satuan</h4>
             <h3>
                 Rp {{ number_format($barang->harga_satuan,0,',','.') }}

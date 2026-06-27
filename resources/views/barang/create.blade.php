@@ -98,26 +98,6 @@ box-shadow:0 2px 10px rgba(0,0,0,.08);
                    class="form-control">
         </div>
 
-        <!-- Supplier -->
-        <div>
-            <label><strong>Supplier</strong></label>
-
-            <select name="supplier_id"
-                    class="form-control">
-
-                <option value="">
-                    Pilih Supplier
-                </option>
-
-                @foreach($suppliers as $supplier)
-                    <option value="{{ $supplier->id }}">
-                        {{ $supplier->nama }}
-                    </option>
-                @endforeach
-
-            </select>
-        </div>
-
 
         <!-- Stok Minimum -->
         <div>

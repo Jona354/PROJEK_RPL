@@ -120,7 +120,6 @@ border-collapse:collapse;
             <th style="padding:15px;">Kode</th>
             <th>Nama Barang</th>
             <th>Kategori</th>
-            <th>Supplier</th>
             <th>Stok</th>
             <th>Harga</th>
             <th width="180">Aksi</th>
@@ -136,7 +135,6 @@ border-collapse:collapse;
     <td style="padding:15px;">{{ $item->kode_barang }}</td>
     <td>{{ $item->nama }}</td>
     <td>{{ $item->kategori }}</td>
-    <td>{{ $item->supplier->nama ?? '-' }}</td>
     <td>
 
         @if($item->stok_saat_ini <= 0)
@@ -183,7 +181,7 @@ border-collapse:collapse;
 @empty
 
 <tr>
-    <td colspan="7" style="padding:30px; text-align:center; color:#6b7280;">
+    <td colspan="6" style="padding:30px; text-align:center; color:#6b7280;">
         Tidak ada data barang yang ditemukan.
     </td>
 </tr>

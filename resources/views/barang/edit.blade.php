@@ -152,38 +152,6 @@
 
 
     <div class="form-group">
-        <label>Satuan</label>
-
-        <input type="text"
-               name="satuan"
-               value="{{ $barang->satuan }}"
-               class="form-control">
-    </div>
-
-
-    <div class="form-group">
-        <label>Supplier</label>
-
-        <select name="supplier_id"
-                class="form-control">
-
-            @foreach($suppliers as $supplier)
-
-            <option value="{{ $supplier->id }}"
-            {{ $barang->supplier_id == $supplier->id ? 'selected' : '' }}>
-
-                {{ $supplier->nama }}
-
-            </option>
-
-            @endforeach
-
-        </select>
-
-    </div>
-
-
-    <div class="form-group">
         <label>Stok Minimum</label>
 
         <input type="number"
