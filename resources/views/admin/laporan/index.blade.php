@@ -74,6 +74,7 @@
     <th>Tanggal</th>
     <th>No Faktur</th>
     <th>Barang</th>
+    <th>Supplier</th>
     <th>Tgl Kadaluarsa</th>
     <th>Jumlah</th>
 </tr>
@@ -88,6 +89,10 @@
     <td>{{ $l->no_faktur }}</td>
 
     <td>{{ $l->barang->nama ?? '-' }}</td>
+
+    <td>
+    {{ $l->supplier->nama ?? '-' }}
+</td>
 
     <td>
 

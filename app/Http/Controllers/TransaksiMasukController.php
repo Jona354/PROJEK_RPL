@@ -13,10 +13,13 @@ class TransaksiMasukController extends Controller
 {
 
     public function index()
-    {
-        $transaksi = TransaksiMasuk::with('barang')->latest()->get();
-        return view('transaksi.masuk.index', compact('transaksi'));
-    }
+{
+    $transaksi = TransaksiMasuk::with(['barang', 'supplier'])
+                    ->latest()
+                    ->get();
+
+    return view('transaksi.masuk.index', compact('transaksi'));
+}
 
     public function create()
     {

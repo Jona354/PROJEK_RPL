@@ -46,6 +46,7 @@
 
     <th>Tanggal Masuk</th>
     <th>No. Faktur</th>
+    <th>Supplier</th>
     <th>Nama Barang</th>
     <th>Jumlah</th>
     <th>Tgl Kadaluarsa</th>
@@ -79,6 +80,14 @@
 
     </td>
 
+
+<td>
+
+    <span class="badge-supplier">
+        {{ $t->supplier->nama ?? '-' }}
+    </span>
+
+</td>
 
     <td>
 
@@ -141,7 +150,7 @@
 
 <tr>
 
-    <td colspan="6"
+    <td colspan="7"
         style="padding:30px;text-align:center;color:#6b7280;">
 
         Belum ada transaksi barang masuk.
