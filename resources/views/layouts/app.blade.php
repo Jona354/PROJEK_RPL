@@ -186,10 +186,10 @@
 
 <script>
     document.addEventListener('click', function (e) {
-        // Deteksi jika elemen yang diklik memiliki class '.btn-logout' 
+        // Deteksi jika elemen yang diklik memiliki class '.btn-logout'
         // atau berada di dalam tombol/link logout
         const logoutBtn = e.target.closest('.btn-logout, [href*="logout"]');
-        
+
         if (logoutBtn) {
             e.preventDefault(); // Menghentikan redirect atau submit instan bawaan browser
 
@@ -217,7 +217,7 @@
 
                     // Cari form logout terdekat, jika tidak ada cari form id #logout-form global
                     const associatedForm = logoutBtn.closest('form') || document.getElementById('logout-form');
-                    
+
                     if (associatedForm) {
                         associatedForm.submit();
                     } else {
@@ -225,13 +225,13 @@
                         const fallbackForm = document.createElement('form');
                         fallbackForm.method = 'POST';
                         fallbackForm.action = "{{ route('logout') }}";
-                        
+
                         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                         const csrfInput = document.createElement('input');
                         csrfInput.type = 'hidden';
                         csrfInput.name = '_token';
                         csrfInput.value = csrfToken;
-                        
+
                         fallbackForm.appendChild(csrfInput);
                         document.body.appendChild(fallbackForm);
                         fallbackForm.submit();
@@ -265,7 +265,7 @@ Swal.fire({
     toast: true,
     position: 'top-end',
     icon: 'success',
-    title: '{{ session("message") }}',
+    title: '{{ session("success") }}',
     showConfirmButton: false,
     timer: 1800,
     timerProgressBar: true

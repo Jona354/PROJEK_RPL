@@ -83,8 +83,23 @@
     Perbarui informasi data barang SIGURESTO
 </p>
 
-
 <div class="form-card">
+
+@if ($errors->any())
+<div style="
+background:#fee2e2;
+color:#991b1b;
+padding:15px;
+border-radius:10px;
+margin-bottom:20px;
+">
+    <ul style="margin:0;padding-left:18px;">
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 
 <form action="{{ route('barang.update',$barang->id) }}"
       method="POST">
@@ -149,6 +164,15 @@
         </select>
 
     </div>
+
+    <div class="form-group">
+    <label>Satuan</label>
+
+    <input type="text"
+           name="satuan"
+           value="{{ old('satuan', $barang->satuan) }}"
+           class="form-control">
+</div>
 
 
     <div class="form-group">

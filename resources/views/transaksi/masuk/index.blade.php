@@ -115,24 +115,23 @@
 
     <td>
 
-        <form
-            action="{{ route('barang-masuk.destroy',$t->id) }}"
-            method="POST"
-            style="display:inline;">
+        <form action="{{ route('barang-masuk.destroy',$t->id) }}"
+      method="POST"
+      class="form-delete"
+      style="display:inline;">
 
-            @csrf
-            @method('DELETE')
+    @csrf
+    @method('DELETE')
 
-            <button
-                type="submit"
-                onclick="return confirm('Hapus transaksi ini?')"
-                class="btn-delete">
+    <button
+        type="button"
+        class="btn-delete">
 
-                Hapus
+        Hapus
 
-            </button>
+    </button>
 
-        </form>
+</form>
 
     </td>
 
@@ -264,4 +263,49 @@
 
 </style>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.form-delete').forEach(function(form){
+
+        form.querySelector('.btn-delete').addEventListener('click', function(e){
+
+            e.preventDefault();
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Hapus Barang Masuk?',
+                text: 'Data transaksi yang dihapus tidak dapat dikembalikan.',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+
+            }).then((result)=>{
+
+                if(result.isConfirmed){
+
+                    Swal.fire({
+                        title:'Menghapus Data...',
+                        text:'Harap tunggu sebentar',
+                        allowOutsideClick:false,
+                        didOpen:()=>{
+                            Swal.showLoading();
+                        }
+                    });
+
+                    form.submit();
+
+                }
+
+            });
+
+        });
+
+    });
+
+});
+</script>
 @endsection

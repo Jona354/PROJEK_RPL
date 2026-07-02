@@ -36,7 +36,7 @@
         border-collapse: collapse;
         text-align: left;
     }
-    
+
     /* Header Tabel Biru (Sesuai Referensi) */
     .custom-table thead {
         background-color: #2563eb; /* Warna biru cerah */
@@ -48,7 +48,7 @@
         font-size: 0.95rem;
         white-space: nowrap;
     }
-    
+
     /* Baris Tabel */
     .custom-table td {
         padding: 16px 20px;
@@ -128,30 +128,36 @@
             <tr>
                 {{-- Membaca kolom 'tanggal' dan memformatnya jadi DD-MM-YYYY --}}
                 <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
-                
+
                 {{-- Membaca tujuan --}}
                 <td>
                     <span class="badge-tujuan">{{ ucfirst($item->tujuan) }}</span>
                 </td>
-                
+
                 {{-- Membaca nama barang melalui relasi model --}}
                 <td>{{ $item->barang->nama ?? 'Barang Tidak Ditemukan' }}</td>
-                
+
                 {{-- Membaca jumlah keluar --}}
                 <td>
                     <span class="badge-jumlah">{{ $item->jumlah }}</span>
                 </td>
-                
+
                 {{-- Tombol aksi Hapus dinamis --}}
                 <td>
-                    <form action="{{ route('barang-keluar.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus riwayat ini?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn-hapus-solid">
-                            Hapus
-                        </button>
-                    </form>
-                </td>                                                                        
+                    <form action="{{ route('barang-keluar.destroy', $item->id) }}"
+      method="POST"
+      class="form-delete"
+      style="display:inline;">
+
+    @csrf
+    @method('DELETE')
+
+    <button type="button" class="btn-hapus-solid">
+        Hapus
+    </button>
+
+</form>
+                </td>
             </tr>
         @endforeach
     @else
@@ -163,4 +169,49 @@
     @endif
 </tbody>    </table>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.form-delete').forEach(function(form){
+
+        form.querySelector('.btn-hapus-solid').addEventListener('click', function(e){
+
+            e.preventDefault();
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Hapus Barang Keluar?',
+                text: 'Data transaksi yang dihapus tidak dapat dikembalikan.',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+
+            }).then((result)=>{
+
+                if(result.isConfirmed){
+
+                    Swal.fire({
+                        title:'Menghapus Data...',
+                        text:'Harap tunggu sebentar',
+                        allowOutsideClick:false,
+                        didOpen:()=>{
+                            Swal.showLoading();
+                        }
+                    });
+
+                    form.submit();
+
+                }
+
+            });
+
+        });
+
+    });
+
+});
+</script>
 @endsection

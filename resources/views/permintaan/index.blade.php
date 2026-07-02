@@ -126,41 +126,45 @@
                                         <div style="display:flex; gap:8px; justify-content:center;">
 
                                             <form action="{{ route('permintaan.approve', $p->id) }}"
-                                                  method="POST"
-                                                  onsubmit="return confirm('Setujui permintaan ini?')">
-                                                @csrf
+      method="POST"
+      class="form-approve">
 
-                                                <button type="submit"
-                                                    style="
-                                                    background:#16a34a;
-                                                    color:white;
-                                                    border:none;
-                                                    padding:8px 12px;
-                                                    border-radius:8px;
-                                                    cursor:pointer;">
-                                                    ✓ Setujui
-                                                </button>
+    @csrf
 
-                                            </form>
+    <button type="button"
+        class="btn-approve"
+        style="
+        background:#16a34a;
+        color:white;
+        border:none;
+        padding:8px 12px;
+        border-radius:8px;
+        cursor:pointer;">
+        ✓ Setujui
+    </button>
+
+</form>
 
 
                                             <form action="{{ route('permintaan.reject', $p->id) }}"
-                                                  method="POST"
-                                                  onsubmit="return confirm('Tolak permintaan ini?')">
-                                                @csrf
+      method="POST"
+      class="form-reject">
 
-                                                <button type="submit"
-                                                    style="
-                                                    background:#dc2626;
-                                                    color:white;
-                                                    border:none;
-                                                    padding:8px 12px;
-                                                    border-radius:8px;
-                                                    cursor:pointer;">
-                                                    ✕ Tolak
-                                                </button>
+    @csrf
 
-                                            </form>
+    <button type="button"
+        class="btn-reject"
+        style="
+        background:#dc2626;
+        color:white;
+        border:none;
+        padding:8px 12px;
+        border-radius:8px;
+        cursor:pointer;">
+        ✕ Tolak
+    </button>
+
+</form>
 
                                         </div>
 
@@ -206,4 +210,99 @@ tbody tr:hover{
     transition:.2s;
 }
 </style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    // ==========================
+    // SETUJUI
+    // ==========================
+
+    document.querySelectorAll('.form-approve').forEach(function(form){
+
+        form.querySelector('.btn-approve').addEventListener('click', function(e){
+
+            e.preventDefault();
+
+            Swal.fire({
+                icon:'question',
+                title:'Setujui Permintaan?',
+                text:'Barang akan dikeluarkan dari stok gudang.',
+                showCancelButton:true,
+                confirmButtonColor:'#16a34a',
+                cancelButtonColor:'#6b7280',
+                confirmButtonText:'Ya, Setujui',
+                cancelButtonText:'Batal',
+                reverseButtons:true
+
+            }).then((result)=>{
+
+                if(result.isConfirmed){
+
+                    Swal.fire({
+                        title:'Memproses...',
+                        text:'Harap tunggu sebentar',
+                        allowOutsideClick:false,
+                        didOpen:()=>{
+                            Swal.showLoading();
+                        }
+                    });
+
+                    form.submit();
+
+                }
+
+            });
+
+        });
+
+    });
+
+
+
+    // ==========================
+    // TOLAK
+    // ==========================
+
+    document.querySelectorAll('.form-reject').forEach(function(form){
+
+        form.querySelector('.btn-reject').addEventListener('click', function(e){
+
+            e.preventDefault();
+
+            Swal.fire({
+                icon:'warning',
+                title:'Tolak Permintaan?',
+                text:'Permintaan barang akan ditolak.',
+                showCancelButton:true,
+                confirmButtonColor:'#dc2626',
+                cancelButtonColor:'#6b7280',
+                confirmButtonText:'Ya, Tolak',
+                cancelButtonText:'Batal',
+                reverseButtons:true
+
+            }).then((result)=>{
+
+                if(result.isConfirmed){
+
+                    Swal.fire({
+                        title:'Memproses...',
+                        text:'Harap tunggu sebentar',
+                        allowOutsideClick:false,
+                        didOpen:()=>{
+                            Swal.showLoading();
+                        }
+                    });
+
+                    form.submit();
+
+                }
+
+            });
+
+        });
+
+    });
+
+});
+</script>
 @endsection
